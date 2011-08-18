@@ -1,12 +1,14 @@
-= Ruby/Rails/Web related gedit language definitions, mime types, styles and snippets.
+= RubyBuntuGedit
 
-This is not meant to be an alternative to *gedit-plugins* or gmate[https://github.com/gmate/gmate.git], but an addition. It focuses on maintaining the base stuff to provide a foundation for customizing your gedit with plugins.
+== Ruby/Rails/Web related gedit language definitions, mime types, styles and snippets.
+
+This is not meant to be an alternative to *gedit-plugins* or gmate[https://github.com/gmate/gmate], but an addition. It focuses on maintaining the base stuff to provide a foundation for customizing your gedit with your favourite plugins.
 
 === Contains
 * {language specifications}[https://github.com/janlelis/rubybuntu-language-specs]
 * {mime types}[https://github.com/janlelis/rubybuntu-mime]
 * {styles}[https://github.com/janlelis/rubybuntu-editor-styles]
-* [snippets}[https://github.com/janlelis/rubybuntu-gedit-snippets]
+* {snippets}[https://github.com/janlelis/rubybuntu-gedit-snippets]
 
 Might also contain plugins someday, but only ones directly related to Ruby/Rails/Web stuff.
 
