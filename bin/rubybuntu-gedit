@@ -81,7 +81,7 @@ action gets.chop =~ /^s?$/i ?
 # snippets
 puts '>> Sorry, currently, the snippets cannot installed via this installer'
 
-puts Paint["Congratulations! You've updated your gedit stuff! (if everything worked correctly °_°)", :green]
+puts Paint["Congratulations! You've updated your gedit stuff! (if everything worked correctly)", :green]
 puts "If not, please install manually and open an issue on github"
 puts 'Don\'t forget to change your gedit style to "RubyBuntu One" ;)'
 puts
