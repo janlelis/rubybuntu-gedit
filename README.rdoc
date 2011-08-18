@@ -6,7 +6,7 @@ This is not meant to be an alternative to *gedit-plugins* or gmate[https://githu
 * {language specifications}[https://github.com/janlelis/rubybuntu-language-specs]
 * {mime types}[https://github.com/janlelis/rubybuntu-mime]
 * {styles}[https://github.com/janlelis/rubybuntu-editor-styles]
-* [snippets}[https://github.com/janlelis/rubybuntu-snippets]
+* [snippets}[https://github.com/janlelis/rubybuntu-gedit-snippets]
 
 Might also contain plugins someday, but only ones directly related to Ruby/Rails/Web stuff.
 

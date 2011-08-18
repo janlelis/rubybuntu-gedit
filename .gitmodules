@@ -1,0 +1,12 @@
+[submodule "data/language-specs"]
+	path = data/language-specs
+	url = https://github.com/janlelis/rubybuntu-language-specs
+[submodule "data/styles"]
+	path = data/styles
+	url = https://github.com/janlelis/rubybuntu-editor-styles
+[submodule "data/mime"]
+	path = data/mime
+	url = https://github.com/janlelis/rubybuntu-mime
+[submodule "data/snippets"]
+	path = data/snippets
+	url = https://github.com/janlelis/rubybuntu-gedit-snippets
