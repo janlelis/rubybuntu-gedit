@@ -1,0 +1,20 @@
+= Ruby/Rails/Web related gedit language definitions, mime types, styles and snippets.
+
+This is not meant to be an alternative to *gedit-plugins* or gmate[https://github.com/gmate/gmate.git], but an addition. It focuses on maintaining the base stuff to provide a foundation for customizing your gedit with plugins.
+
+=== Contains
+* {language specifications}[https://github.com/janlelis/rubybuntu-language-specs]
+* {mime types}[https://github.com/janlelis/rubybuntu-mime]
+* {styles}[https://github.com/janlelis/rubybuntu-editor-styles]
+* [snippets}[https://github.com/janlelis/rubybuntu-snippets]
+
+Might also contain plugins someday, but only ones directly related to Ruby/Rails/Web stuff.
+
+== Setup
+
+Either checkout the sub-repositories (in the data directory) and install each one manually or run
+
+    gem install rubybuntu-gedit
+    rubybuntu-gedit install
+
+== J-_-L
