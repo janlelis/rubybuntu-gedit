@@ -13,6 +13,8 @@ Gem::Specification.new do |s|
   s.files = Dir.glob(%w|bin/* [A-Z]*.{txt,rdoc} data/**/*|) + %w|Rakefile rubybuntu-gedit.gemspec|
   s.executables = Dir['bin/*'].map{|f| File.basename f }
   s.license = "GPL"
+  
+  s.add_dependency 'paint'
 
   len = s.homepage.size
   s.post_install_message = \
