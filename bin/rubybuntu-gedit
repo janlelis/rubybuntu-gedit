@@ -2,8 +2,13 @@
 # The installer was done as fast as possible, so
 # TODO use dry and maintainable ruby code :D
 
+# # #
 # enable colors if possible
-require 'paint' rescue nil
+begin
+  require 'paint'
+rescue LoadError
+end
+
 unless defined? Paint
   module Paint
     def self.[](*args)
@@ -12,11 +17,31 @@ unless defined? Paint
   end
 end
 
+# # #
+# parse command line stuff
 if ARGV.shift != 'install'
   warn 'Currently, only "rubybuntu-gedit install" is supported. Quitting...'
   exit
 end
 
+if ARGV.empty?
+  @todo = [:specs, :mime, :styles, :snippets]
+else
+  @todo = []
+  case ARGV.shift
+  when /specs/
+    @todo << :specs
+  when /mime/
+    @todo << :mime
+  when /styles/
+    @todo << :styles
+  when /snippets/
+    @todo << :snippets
+  end
+end
+
+# # #
+# helper methods
 def action(what)
   if what && !what.empty?
     puts Paint["x] #{what}", :yellow]
@@ -26,63 +51,89 @@ end
 
 def check_existence(what, sudo = true)
   if File.exists?(what)
-    print ">> The installer found an outdated file at \"#{what}\"\n" \
-          "Q] It's recommended to remove it. Do you want to remove it? [Yn]"
-    action gets.chop =~ /^y?$/i ?
-     "sudo rm -f #{what}"
-     : nil
+    print "Q] The installer found an outdated file at \"#{what}\"\n" \
+          "   It's recommended to remove it. Do you want to remove it? [Yn] "
+    action("sudo rm -f #{what}") if gets.chop =~ /^y?$/i
   end
 end
 
-@data = File.dirname(__FILE__) + "/../data"
-
-puts 'Welcome to the rubybuntu-gedit installer :D'
-puts 'Before each action I\'ll tell you what I am going to do'
-puts Paint['Please note: ', :bold] + 'I am pretty untested and might destroy your computer'
-
 # # #
 # language specs
-puts '>> Let\'s start with copying the language specs'
-print 'Q] Do you want to install the languages specs as sudo [/usr/share/gtksourceview-2.0/language-specs] or in your home directory [~/.local/share/gtksourceview-2.0/language-specs]? [Sh]'
-action gets.chop =~ /^s?$/i ?
-  "sudo cp #@data/language-specs/*.lang /usr/share/gtksourceview-2.0/language-specs"
-  : "mkdir -p ~/.local/share/gtksourceview-2.0/language-specs\n" \
-    "   cp #@data/language-specs/*.lang ~/.local/share/gtksourceview-2.0/language-specs"
+def specs
+  puts Paint["\nLet's start with copying the language specs\n", :underline]
+  print "Q] Do you want to install the languages specs as sudo [/usr/share/gtksourceview-2.0/language-specs]\n" \
+        "   or in your home directory [~/.local/share/gtksourceview-2.0/language-specs]? [Sh] "
+  if gets.chop =~ /^s?$/i
+    action "sudo cp #@data/language-specs/*.lang /usr/share/gtksourceview-2.0/language-specs"
+  else
+    action "mkdir -p ~/.local/share/gtksourceview-2.0/language-specs\n" \
+           "   cp #@data/language-specs/*.lang ~/.local/share/gtksourceview-2.0/language-specs"
+  end
 
-check_existence '/usr/share/gtksourceview-2.0/language-specs/rhtml.lang', true
-check_existence '/usr/share/gtksourceview-2.0/language-specs/ruby_on_rails.lang', true
-check_existence '~/.local/share/gtksourceview-2.0/language-specs/rhtml.lang', false
-check_existence '~/.local/share/gtksourceview-2.0/language-specs/ruby_on_rails.lang', false
+  check_existence '/usr/share/gtksourceview-2.0/language-specs/rhtml.lang', true
+  check_existence '/usr/share/gtksourceview-2.0/language-specs/ruby_on_rails.lang', true
+  check_existence '~/.local/share/gtksourceview-2.0/language-specs/rhtml.lang', false
+  check_existence '~/.local/share/gtksourceview-2.0/language-specs/ruby_on_rails.lang', false
+end
 
 # # #
 # mime
-puts '>> Now the mime types should be updated'
-print 'Q] Do you want to install the mime types as sudo [/usr/share/mime/packages] or in your home directory [~/.local/share/gtksourceview-2.0/language-specs]? [Sh]'
-action gets.chop =~ /^s?$/i ?
-  "sudo cp #@data/mime/*.xml /usr/share/mime/packages\n" \
-  "   sudo update-mime-database /usr/share/mime"
-  : "mkdir -p ~/.local/share/mime/packages\n" \
-    "   cp #@data/mime/*.xml ~/.local/share/mime/packages" \
-    "   update-mime-database ~/.local/share/mime"
+def mime
+  puts Paint["\nNow the mime types should be updated\n", :underline]
+  print "Q] Do you want to install the mime types as sudo [/usr/share/mime/packages]\n" \
+        "   or in your home directory [~/.local/share/gtksourceview-2.0/language-specs]? [Sh] "
+  if gets.chop =~ /^s?$/i
+    action  "sudo cp #@data/mime/*.xml /usr/share/mime/packages\n" \
+            "   sudo update-mime-database /usr/share/mime"
+  else
+    action "mkdir -p ~/.local/share/mime/packages\n" \
+           "   cp #@data/mime/*.xml ~/.local/share/mime/packages" \
+           "   update-mime-database ~/.local/share/mime"
+  end
 
-check_existence '/usr/share/mime/rails.xml', true
-check_existence '~/.local/share/mime/rails.xml', false
+  check_existence '/usr/share/mime/rails.xml', true
+  check_existence '~/.local/share/mime/rails.xml', false
+end
 
 # # #
 # styles
-puts '>> Now, some styles get copied that use the new language specs :)'
-print 'Q] Do you want to install the styles as sudo [/usr/share/gtksourceview-2.0/styles] or in your home directory [~/.local/share/gtksourceview-2.0/styles]? [Sh]'
-action gets.chop =~ /^s?$/i ?
-  "sudo cp #@data/styles/*.xml /usr/share/gtksourceview-2.0/styles"
-  : "mkdir -p ~/.local/share/gtksourceview-2.0/styles\n" \
-    "   cp #@data/language-specs/*.lang ~/.local/share/gtksourceview-2.0/styles"
+def styles
+  puts Paint["\nNow, some styles get copied that use the new language specs :)\n", :underline]
+  print "Q] Do you want to install the styles as sudo [/usr/share/gtksourceview-2.0/styles]\n" \
+        "   or in your home directory [~/.local/share/gtksourceview-2.0/styles]? [Sh] "
+  if gets.chop =~ /^s?$/i
+    action "sudo cp #@data/styles/*.xml /usr/share/gtksourceview-2.0/styles"
+  else
+    action "mkdir -p ~/.local/share/gtksourceview-2.0/styles\n" \
+           "   cp #@data/language-specs/*.lang ~/.local/share/gtksourceview-2.0/styles"
+  end
+end
 
 # # #
 # snippets
-puts '>> Sorry, currently, the snippets cannot installed via this installer'
+def snippets
+  puts Paint["\nSorry, currently, the snippets cannot installed via this installer\n", :underline]
+  puts "...\n"
+end
 
+
+# # #
+# run
+@data = File.dirname(__FILE__) + "/../data"
+
+puts
+puts Paint["Welcome to the rubybuntu-gedit installer :D", :green]
+puts 'Before each action I\'ll tell you what I am going to do'
+puts Paint['Please note: ', :bold] + 'I am pretty untested and might destroy your computer'
+
+@todo.each{|todo| send todo }
+
+puts
 puts Paint["Congratulations! You've updated your gedit stuff! (if everything worked correctly)", :green]
+puts
 puts "If not, please install manually and open an issue on github"
 puts 'Don\'t forget to change your gedit style to "RubyBuntu One" ;)'
 puts
 puts "  J-_-L"
+puts
+
