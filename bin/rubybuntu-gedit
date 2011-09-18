@@ -132,7 +132,7 @@ puts
 puts Paint["Congratulations! You've updated your gedit stuff! (if everything worked correctly)", :green]
 puts
 puts "If not, please install manually and open an issue on github"
-puts 'Don\'t forget to change your gedit style to "RubyBuntu One" ;)'
+puts 'Don\'t forget to change your gedit style to "RubyBuntu One" to really use the new features.'
 puts
 puts "  J-_-L"
 puts
