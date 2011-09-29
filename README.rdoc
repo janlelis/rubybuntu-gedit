@@ -19,4 +19,8 @@ Either checkout the sub-repositories (in the data directory) and install each on
     gem install rubybuntu-gedit
     rubybuntu-gedit install
 
+Want to tweak parts of the source to your needs? Try this one in the project dir:
+
+    rake install && rubybuntu-gedit install specs --sudo
+
 == J-_-L

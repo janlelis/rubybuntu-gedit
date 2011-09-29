@@ -24,19 +24,25 @@ if ARGV.shift != 'install'
   exit
 end
 
+@sudo = false # auto sudo
+
 if ARGV.empty?
   @todo = [:specs, :mime, :styles, :snippets]
 else
   @todo = []
-  case ARGV.shift
-  when /specs/
-    @todo << :specs
-  when /mime/
-    @todo << :mime
-  when /styles/
-    @todo << :styles
-  when /snippets/
-    @todo << :snippets
+  while arg = ARGV.shift
+    case arg
+    when "--sudo"
+      @sudo = true
+    when /specs/
+      @todo << :specs
+    when /mime/
+      @todo << :mime
+    when /styles/
+      @todo << :styles
+    when /snippets/
+      @todo << :snippets
+    end
   end
 end
 
@@ -63,7 +69,7 @@ def specs
   puts Paint["\nLet's start with copying the language specs\n", :underline]
   print "Q] Do you want to install the languages specs as sudo [/usr/share/gtksourceview-2.0/language-specs]\n" \
         "   or in your home directory [~/.local/share/gtksourceview-2.0/language-specs]? [Sh] "
-  if gets.chop =~ /^s?$/i
+  if @sudo || gets.chop =~ /^s?$/i
     action "sudo cp #@data/language-specs/*.lang /usr/share/gtksourceview-2.0/language-specs"
   else
     action "mkdir -p ~/.local/share/gtksourceview-2.0/language-specs\n" \
@@ -82,7 +88,7 @@ def mime
   puts Paint["\nNow the mime types should be updated\n", :underline]
   print "Q] Do you want to install the mime types as sudo [/usr/share/mime/packages]\n" \
         "   or in your home directory [~/.local/share/gtksourceview-2.0/language-specs]? [Sh] "
-  if gets.chop =~ /^s?$/i
+  if @sudo || gets.chop =~ /^s?$/i
     action  "sudo cp #@data/mime/*.xml /usr/share/mime/packages\n" \
             "   sudo update-mime-database /usr/share/mime"
   else
@@ -101,11 +107,11 @@ def styles
   puts Paint["\nNow, some styles get copied that use the new language specs :)\n", :underline]
   print "Q] Do you want to install the styles as sudo [/usr/share/gtksourceview-2.0/styles]\n" \
         "   or in your home directory [~/.local/share/gtksourceview-2.0/styles]? [Sh] "
-  if gets.chop =~ /^s?$/i
+  if @sudo || gets.chop =~ /^s?$/i
     action "sudo cp #@data/styles/*.xml /usr/share/gtksourceview-2.0/styles"
   else
     action "mkdir -p ~/.local/share/gtksourceview-2.0/styles\n" \
-           "   cp #@data/language-specs/*.lang ~/.local/share/gtksourceview-2.0/styles"
+           "   cp #@data/styles/*.xml ~/.local/share/gtksourceview-2.0/styles"
   end
 end
 
