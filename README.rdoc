@@ -18,6 +18,10 @@ Either checkout the sub-repositories (in the data directory) and install each on
 
     gem install rubybuntu-gedit
     rubybuntu-gedit install
+    
+For gedit 3, replace the last line with:
+
+    rubybuntu-gedit install -3
 
 Want to tweak parts of the source to your needs? Try this one in the project dir:
 
