@@ -97,7 +97,7 @@ def mime
             "   sudo update-mime-database /usr/share/mime"
   else
     action "mkdir -p ~/.local/share/mime/packages\n" \
-           "   cp #@data/mime/*.xml ~/.local/share/mime/packages" \
+           "   cp #@data/mime/*.xml ~/.local/share/mime/packages\n" \
            "   update-mime-database ~/.local/share/mime"
   end
 
